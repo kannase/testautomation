@@ -22,9 +22,9 @@ pipeline {
 		
 		stage ("Reports") {
 			steps {
-			    allure includeproperties:false
-			    results: [[path:'allure-results']]
-			    reportBuildPolicy: 'ALWAYS'
+			    allure includeproperties:false,
+			    results: [[path:'allure-results']],
+			    reportBuildPolicy: 'ALWAYS',
 			    reportName: 'Mobile Test Report'
 			}
 		}
