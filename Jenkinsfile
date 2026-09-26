@@ -12,7 +12,7 @@ pipeline {
 			steps {
 				
         		dir("environments"){
-					sh 'vagrant up'
+					bat 'vagrant up'
 				}
 			}
         }
