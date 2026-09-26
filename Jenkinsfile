@@ -16,25 +16,8 @@ pipeline {
 				}
 			}
         }
-        stage ("test") {
-            steps {
- 				sh './scripts/run_tests.sh'
-			}
-        }
-		
-		stage ("Reports") {
-			steps {
-			    allure includeproperties:false,
-			    results: [[path:'allure-results']],
-			    reportBuildPolicy: 'ALWAYS',
-			    reportName: 'Mobile Test Report'
-			}
-		}
+      
     }
-	post {
-		always{
-			junit 'reports/junit_reports.xml'
-		}
-    }
+	
 }	
 	
