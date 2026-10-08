@@ -49,7 +49,7 @@ pipeline {
 	 post {
         always {
             // Automatically cleans up the workspace files after the run finishes
-            cleanWs()
+            cleanWs deleteDirs: true, notFailBuild: true
         }
     }
 }
