@@ -2,10 +2,14 @@ pipeline {
     agent {
         label 'windows-agent'
     }
+	parameters {
+        string(name: 'TA_ENV_BRANCH', defaultValue: 'feat/appium-system-tests', description: 'Git branch to checkout and test')
+    }
     stages {
         stage("Checkout code"){
             steps {
-                checkout scm
+                // Checks out the branch specified in the Jenkins UI trigger parameter
+                git branch: "${params.TA_ENV_BRANCH}", url: 'https://github.com/kannase/testautomation.git'
             }
         }
         stage("Start Android Emulator"){
