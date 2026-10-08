@@ -16,7 +16,7 @@ pipeline {
             steps {
                 powershell '''
                     Write-Host "Starting Android Emulator..."
-                    cmd /c start "" "C:\\Android\\Sdk\\emulator\\emulator.exe" -avd TestDevice -no-snapshot-load -no-audio
+                    cmd /c start "" "C:\\Android\\Sdk\\emulator\\emulator.exe" -avd TestDevice -no-snapshot-load -no-audio > $null 2>&1
                     
                     Write-Host "Waiting for device to connect via ADB..."
                     adb wait-for-device
