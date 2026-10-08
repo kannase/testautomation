@@ -19,12 +19,13 @@ pipeline {
                     
 					# Override the node cookie so Jenkins leaves this process running after build completion
                     $env:JENKINS_NODE_COOKIE = "dontKillMe"
+					Start-Process "C:\\Android\\Sdk\\emulator\\emulator.exe" -ArgumentList "-avd TestDevice -no-snapshot-load -no-audio"
 					
-					$startInfo = New-Object System.Diagnostics.ProcessStartInfo
-					$startInfo.FileName = "C:\\Android\\Sdk\\emulator\\emulator.exe"
-					$startInfo.Arguments = "-avd TestDevice -no-snapshot-load -no-audio"
-					$startInfo.UseShellExecute = $true
-					[System.Diagnostics.Process]::Start($startInfo) | Out-Null
+					#$startInfo = New-Object System.Diagnostics.ProcessStartInfo
+					#$startInfo.FileName = "C:\\Android\\Sdk\\emulator\\emulator.exe"
+					#$startInfo.Arguments = "-avd TestDevice -no-snapshot-load -no-audio"
+					#$startInfo.UseShellExecute = $true
+					#[System.Diagnostics.Process]::Start($startInfo) | Out-Null
 					
 					#cmd /c start "" "C:\\Android\\Sdk\\emulator\\emulator.exe" -avd TestDevice -no-snapshot-load -no-audio > $null 2>&1
                     
