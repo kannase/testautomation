@@ -17,6 +17,9 @@ pipeline {
                 powershell '''
                     Write-Host "Starting Android Emulator..."
                     
+					# Override the node cookie so Jenkins leaves this process running after build completion
+                    $env:JENKINS_NODE_COOKIE = "dontKillMe"
+					
 					$startInfo = New-Object System.Diagnostics.ProcessStartInfo
 					$startInfo.FileName = "C:\\Android\\Sdk\\emulator\\emulator.exe"
 					$startInfo.Arguments = "-avd TestDevice -no-snapshot-load -no-audio"
