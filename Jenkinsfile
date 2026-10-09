@@ -60,7 +60,7 @@ pipeline {
         }
         stage("Deploy to Emulator") {
             steps {
-                powershell """
+                powershell '''
                     Write-Host "Preparing local temp directory..."
                     $customTempDir = "C:\\temp"
                     $targetApkPath = "$customTempDir\\${params.APK_NAME}"
@@ -94,7 +94,7 @@ pipeline {
                         Remove-Item \$customTempDir -Recurse -Force
                         Write-Host "C:\\temp folder cleaned up and deleted."
                     }
-                """
+                '''
             }
         }
      }
