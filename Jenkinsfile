@@ -105,11 +105,6 @@ pipeline {
                         exit 1
                     }
                     
-                    # Clean up: Delete the entire C:\\temp folder and its contents
-                    if (Test-Path $customTempDir) {
-                        Remove-Item $customTempDir -Recurse -Force
-                        Write-Host "C:\\temp folder cleaned up and deleted."
-                    }
                 '''
             }
         }
