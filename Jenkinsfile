@@ -60,14 +60,14 @@ pipeline {
         }
         stage("Deploy to Emulator") {
             steps {
-                powershell '''
+                powershell """
                     Write-Host "Preparing local temp directory..."
-                    $customTempDir = "C:\\temp"
-                    $targetApkPath = "$customTempDir\\${params.APK_NAME}"
-                    $sourcePath = "${params.APK_PATH}\\${params.APK_NAME}"
+                    \$customTempDir = "C:\\temp"
+                    \$targetApkPath = "$customTempDir\\${params.APK_NAME}"
+                    \$sourcePath = "${params.APK_PATH}\\${params.APK_NAME}"
                     
                     # Ensure C:\\temp exists
-                    if (-not (Test-Path $customTempDir)) {
+                    if (-not (Test-Path \$customTempDir)) {
                         New-Item -ItemType Directory -Path $customTempDir | Out-Null
                     }
                     
@@ -77,7 +77,7 @@ pipeline {
                     }
                     
 					# Safely join the temp directory and the APK filename
-                    $targetApkPath = Join-Path $customTempDir $apkName
+                    \$targetApkPath = Join-Path \$customTempDir \$apkName
 					
                     Write-Host "Copying APK to $targetApkPath..."
                     Copy-Item \$sourcePath \$targetApkPath -Force
@@ -97,7 +97,7 @@ pipeline {
                         Remove-Item \$customTempDir -Recurse -Force
                         Write-Host "C:\\temp folder cleaned up and deleted."
                     }
-                '''
+                """
             }
         }
      }
