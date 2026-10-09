@@ -64,7 +64,7 @@ pipeline {
                     Write-Host "Preparing local temp directory..."
                     $customTempDir = "C:\\temp"
                     $targetApkPath = "$customTempDir\\${params.APK_NAME}"
-                    $sourcePath = "${params.APK_SHARE_PATH}\\${params.APK_NAME}"
+                    $sourcePath = "${params.APK_PATH}\\${params.APK_NAME}"
                     
                     # Ensure C:\\temp exists
                     if (-not (Test-Path $customTempDir)) {
