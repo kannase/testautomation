@@ -68,8 +68,16 @@ pipeline {
                 powershell '''
                     Write-Host "Preparing local temp directory..."
                     $customTempDir = "C:\\temp"
-                    $sourcePath = Join-Path $env:PARAM_APK_PATH $env:PARAM_APK_NAME
-                    $targetApkPath = Join-Path $customTempDir $env:PARAM_APK_NAME
+                    
+					# Fallback to default name if environment variable is empty
+                    $apkFileName = if ($env:PARAM_APK_NAME) { $env:PARAM_APK_NAME } else { "app-release.apk" }
+                    $apkShare = if ($env:PARAM_APK_PATH) { $env:PARAM_APK_PATH } else { "\\\\SENTHIL\\release" }
+					
+					$sourcePath = Join-Path $apkShare $apkFileName
+                    $targetApkPath = Join-Path $customTempDir $apkFileName
+					
+					Write-Host "Source Path: $sourcePath"
+                    Write-Host "Target Path: $targetApkPath"
                     
                     # Ensure C:\\temp exists
                     if (-not (Test-Path $customTempDir)) {
