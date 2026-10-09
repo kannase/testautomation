@@ -89,12 +89,14 @@ pipeline {
                         exit 1
                     }
                     
-					# Safely join the temp directory and the APK filename
-                    $targetApkPath = Join-Path $customTempDir $apkName
+                    Write-Host "Copying APK from $sourcePath to $targetApkPath..."
+                    Copy-Item -LiteralPath $sourcePath -Destination $targetApkPath -Force
 					
-                    Write-Host "Copying APK to $targetApkPath..."
-                    Copy-Item $sourcePath $targetApkPath -Force
-                    
+					if (-not (Test-Path $targetApkPath)) {
+                        Write-Error "Target APK not found at $targetApkPath after copy!"
+                        exit 1
+                    }
+					
                     Write-Host "Installing APK from $targetApkPath..."
                     adb install -r $targetApkPath
                     
