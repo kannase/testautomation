@@ -76,6 +76,9 @@ pipeline {
                         exit 1
                     }
                     
+					# Safely join the temp directory and the APK filename
+                    $targetApkPath = Join-Path $customTempDir $apkName
+					
                     Write-Host "Copying APK to $targetApkPath..."
                     Copy-Item \$sourcePath \$targetApkPath -Force
                     
