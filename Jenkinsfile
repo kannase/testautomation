@@ -4,7 +4,7 @@ pipeline {
     }
 	parameters {
         string(name: 'TA_ENV_BRANCH', defaultValue: 'feat/appium-system-tests', description: 'Git branch to checkout and test')
-		string(name: 'APK_SHARE_PATH', defaultValue: '\\\\SENTHIL\\release', description: 'Network file share directory containing the APK')
+		string(name: 'APK_PATH', defaultValue: '\\\\SENTHIL\\release', description: 'Network file share directory containing the APK')
         string(name: 'APK_NAME', defaultValue: 'app-release.apk', description: 'Name of the APK file')
     }
     stages {
