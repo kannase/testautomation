@@ -6,6 +6,11 @@ pipeline {
         string(name: 'TA_ENV_BRANCH', defaultValue: 'feat/appium-system-tests', description: 'Git branch to checkout and test')
 		string(name: 'APK_PATH', defaultValue: '\\\\SENTHIL\\release', description: 'Network file share directory containing the APK')
         string(name: 'APK_NAME', defaultValue: 'app-release.apk', description: 'Name of the APK file')
+		
+    }
+	environment {
+        PARAM_APK_PATH = "${params.APK_PATH}"
+        PARAM_APK_NAME = "${params.APK_NAME}"
     }
     stages {
         stage("Checkout code"){
@@ -60,30 +65,30 @@ pipeline {
         }
         stage("Deploy to Emulator") {
             steps {
-                powershell """
+                powershell '''
                     Write-Host "Preparing local temp directory..."
-                    \$customTempDir = "C:\\temp"
-                    \$targetApkPath = "$customTempDir\\${params.APK_NAME}"
-                    \$sourcePath = "${params.APK_PATH}\\${params.APK_NAME}"
+                    $customTempDir = "C:\\temp"
+                    $sourcePath = Join-Path $env:PARAM_APK_PATH $env:PARAM_APK_NAME
+                    $targetApkPath = Join-Path $customTempDir $env:PARAM_APK_NAME
                     
                     # Ensure C:\\temp exists
-                    if (-not (Test-Path \$customTempDir)) {
+                    if (-not (Test-Path $customTempDir)) {
                         New-Item -ItemType Directory -Path $customTempDir | Out-Null
                     }
                     
-                    if (-not (Test-Path \$sourcePath)) {
-                        Write-Error "Could not find APK at: \$sourcePath"
+                    if (-not (Test-Path $sourcePath)) {
+                        Write-Error "Could not find APK at: $sourcePath"
                         exit 1
                     }
                     
 					# Safely join the temp directory and the APK filename
-                    \$targetApkPath = Join-Path \$customTempDir \$apkName
+                    $targetApkPath = Join-Path $customTempDir $apkName
 					
                     Write-Host "Copying APK to $targetApkPath..."
-                    Copy-Item \$sourcePath \$targetApkPath -Force
+                    Copy-Item $sourcePath $targetApkPath -Force
                     
                     Write-Host "Installing APK from $targetApkPath..."
-                    adb install -r \$targetApkPath
+                    adb install -r $targetApkPath
                     
                     if (\$LASTEXITCODE -eq 0) {
                         Write-Host "App installed successfully!"
@@ -93,11 +98,11 @@ pipeline {
                     }
                     
                     # Clean up: Delete the entire C:\\temp folder and its contents
-                    if (Test-Path \$customTempDir) {
-                        Remove-Item \$customTempDir -Recurse -Force
+                    if (Test-Path $customTempDir) {
+                        Remove-Item $customTempDir -Recurse -Force
                         Write-Host "C:\\temp folder cleaned up and deleted."
                     }
-                """
+                '''
             }
         }
      }
